@@ -1,3 +1,3 @@
 # Variables for ansible installation.  Default is for ubuntu, will need to come back later and make it work for other OSes
 ansible_repo_source: git://github.com/ansible/ansible.git
-ansible_install_directory: /etc/ansible
+ansible_install_directory: /home/ubuntu/ansible
