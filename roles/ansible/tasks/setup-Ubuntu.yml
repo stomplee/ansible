@@ -1,7 +1,17 @@
 ---
 # tasks file for ansible
-- name: Install Ansible from source
+- name: Ansible | Step 1 - Install Ansible from source
   git:
     repo: "{{ ansible_repo_source }}"
     clone: yes
     dest: "{{ ansible_install_directory }}"
+
+- name: Ansible | Step 2 - Install Ansible-Python Dependencies
+  apt:
+    name:
+      - python-pip
+      - libssl-dev
+      - libffi-dev
+      - python-dev
+      - python-apt
+    state: present
