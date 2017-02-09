@@ -1,0 +1,38 @@
+- hosts: localhost
+  name: Create VMWare virtual machine
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Create the VM
+      vsphere_guest:
+        vcenter_hostname: <FQDN of vCenter server>
+        username: <vcenter username>
+        password: <vcenter password>
+        guest: <vm name>
+        validate_certs: false
+        state: present
+        from_template: <yes/no>
+        template_src: <template name>
+        vm_extra_config:
+          vcpu.hotadd: no
+          mem.hotadd:  no
+          notes: <vm notes>
+          folder: <destination folder>
+        vm_disk:
+          disk1:
+            size_gb: 10
+            type: thin
+            datastore: <datastore name>
+        vm_nic:
+          nic1:
+            type: vmxnet3
+            network: <VLAN/network name>
+            network_type: standard
+        vm_hardware:
+          memory_mb: 512
+          num_cpus: 2
+          osid: rhel6_64Guest #change to the one for the distro of choice
+          scsi: paravirtual
+        esxi:
+          datacenter: <datacenter>\
+          hostname: <FQDN of esxi host>

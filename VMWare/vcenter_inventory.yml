@@ -1,0 +1,14 @@
+---
+- hosts: 127.0.0.1
+  connection: local
+  become_user: ubuntu
+  become: false
+  gather_facts: false
+  serial: 1
+  tasks:
+    - name: gather facts on all vms in vcenter
+      vmware_vm_facts:
+        hostname: <hostname>
+        username: <username>
+        password: <insert pw here>
+        validate_certs: False

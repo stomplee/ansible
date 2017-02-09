@@ -1,0 +1,36 @@
+- hosts: localhost
+  name: Delete VM
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Delete the VM
+      vsphere_guest:
+        vcenter_hostname: <FQDN of vCenter server>
+        username: <vcenter username>
+        password: <vcenter password>
+        guest: <vm  name>
+        validate_certs: false
+        state: absent
+        vm_extra_config:
+          vcpu.hotadd: no
+          mem.hotadd:  no
+          notes: <vm notes>
+          folder: <destination folder>
+        vm_disk:
+          disk1:
+            size_gb: 10
+            type: thin
+            datastore: <datastore name>
+        vm_nic:
+          nic1:
+            type: vmxnet3
+            network: <vlan/network name>
+            network_type: standard
+        vm_hardware:
+          memory_mb: 512
+          num_cpus: 2
+          osid: rhel6_64Guest
+          scsi: paravirtual
+        esxi:
+          datacenter: <vcenter datacenter name>
+          hostname: <FQDN of ESXi host>
