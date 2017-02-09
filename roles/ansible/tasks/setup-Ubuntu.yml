@@ -1,0 +1,10 @@
+---
+# tasks file for ansible
+- name: Install Ansible from source
+  vars:
+    ansible_repo_source: git://github.com/ansible/ansible.git
+    ansible_install_directory: /etc/ansible
+  git:
+    repo: "{{ ansible_repo_source }}"
+    clone: yes
+    dest: "{{ ansible_install_directory }}"
