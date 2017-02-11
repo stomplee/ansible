@@ -1,0 +1,5 @@
+---
+# defaults file for roles/ansible-jenkins
+jenkins_apt_repo: 'deb http://pkg.jenkins.io/debian-stable binary/'
+jenkins_repo_key: 'https://pkg.jenkins.io/debian/jenkins-ci.org.key'
+jenkins_home_dir: '/var/lib/jenkins'

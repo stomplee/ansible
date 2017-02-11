@@ -1,0 +1,49 @@
+---
+- name: Jenkins | Step 1 - Add Repo Key
+  apt_key:
+    url: "{{ jenkins_repo_key }}"
+    state: present
+
+- name: Jenkins | Step 2 - Add Repo To Repo List
+  apt_repository:
+    repo: "{{ jenkins_apt_repo }}"
+    state: present
+
+- name: Jenkins | Step 3 - Install Jenkins Package
+  apt:
+    name: jenkins
+    state: present
+    update_cache: yes
+
+- name: Jenkins | Step 4 - Ensure Jenkins Service Is Running
+  service:
+    name: jenkins
+    state: started
+
+- name: Jenkins | Step 5 - Ensure Jenkins Website Is Available
+  wait_for:
+    port: 8080
+    delay: 20
+
+- name: Jenkins | Step 6 - Checking If Initial Admin Password Exists
+  stat:
+    path: "{{ jenkins_home_dir }}/secrets/initialAdminPassword"
+  register: "jenkins_initial_password_check"
+
+- name: Jenkins | Step 7 - Capturing Initial Admin Password
+  command: "cat {{ jenkins_home_dir }}/secrets/initialAdminPassword"
+  register: "jenkins_initialAdminPassword"
+  changed_when: false
+  when:  jenkins_initial_password_check.stat.exists
+
+- name: Jenkins | Step 8 - Displaying Initial Admin Password
+  debug:
+    msg: "Login to Jenkins with the initial password {{ jenkins_initialAdminPassword.stdout }} @ http://localhost:8080"
+  when:  jenkins_initial_password_check.stat.exists
+
+- name: Jenkins | Step 9 - Install Active Directory Plugin
+  jenkins_plugin:
+    name: active-directory
+    url_username: admin
+    url_password: admin
+  notify: restart jenkins
