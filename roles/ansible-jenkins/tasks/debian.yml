@@ -41,9 +41,14 @@
     msg: "Login to Jenkins with the initial password {{ jenkins_initialAdminPassword.stdout }} @ http://localhost:8080"
   when:  jenkins_initial_password_check.stat.exists
 
-- name: Jenkins | Step 9 - Install Active Directory Plugin
-  jenkins_plugin:
-    name: active-directory
-    url_username: admin
-    url_password: admin
-  notify: restart jenkins
+#- name: Jenkins | Step 9 - Install Active Directory Plugin
+#  jenkins_plugin:
+#    name: active-directory
+#    url_username: admin
+#    url_password: admin
+#  notify: restart jenkins
+
+# Next step is to figure out how to suppress the initial setup wizard and auto-create an admin
+# user account.
+#
+# When that user account has been embedded then I can do stuff like use the Jenkins CLI to control Jenkins
